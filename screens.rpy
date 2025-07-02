@@ -4,8 +4,8 @@
 
 init offset = -1
 
-init:
-    define linkedin = Position(xalign=0.05, yalign=0.1)
+# init:
+#     define linkedin = Position(xalign=0.05, yalign=0.1)
 
 
 ################################################################################
@@ -60,8 +60,8 @@ style scrollbar:
 
 style vscrollbar:
     xsize gui.scrollbar_size
-    base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", 0, 100, 0, 100, gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", 0, 100, 0, 100, gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
 style slider:
     ysize gui.slider_size
@@ -77,8 +77,6 @@ style vslider:
 style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
-
-
 
 ################################################################################
 ## In-game screens
@@ -198,6 +196,54 @@ style input:
     xalign gui.dialogue_text_xalign
     xmaximum gui.dialogue_width
 
+## "Top Left Display" Screen ##################################################
+##
+## This screen is used to display our in-game optical displays to the player in the top-left.
+
+screen topleftdisplay(image_path="screen_placeholder.png"):
+    # Define the screen to display the scrollable image
+
+    frame: # Optional: use a frame to enclose the viewport
+        xsize 600  # Set the desired width of the viewport
+        ysize 500  # Set the desired height of the viewport
+        xalign 0.05
+        yalign 0.1
+        
+        viewport: # Create a viewport for scrolling
+            id "image_viewport"  # Assign an ID to the viewport
+            draggable True  # Allow dragging to scroll
+            mousewheel True  # Enable scrolling with the mouse wheel
+
+            add image_path  # Add your long image here
+
+        vbar:
+            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+            xalign 1.0  # Position the scrollbar to the right
+            xsize 10  # Set the width of the scrollbar
+            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
+
+
+screen centraldisplay(image_path="screen_placeholder.png"):
+    # Define the screen to display the scrollable image
+
+    frame: # Optional: use a frame to enclose the viewport
+        xsize 800  # Set the desired width of the viewport
+        ysize 1000  # Set the desired height of the viewport
+        xalign 0.5
+        yalign 0.7
+        
+        viewport: # Create a viewport for scrolling
+            id "image_viewport"  # Assign an ID to the viewport
+            draggable True  # Allow dragging to scroll
+            mousewheel True  # Enable scrolling with the mouse wheel
+
+            add image_path  # Add your long image here
+
+        vbar:
+            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+            xalign 1.0  # Position the scrollbar to the right
+            xsize 10  # Set the width of the scrollbar
+            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
 ## Choice screen ###############################################################
 ##
@@ -210,34 +256,63 @@ style input:
 screen choice(items):
     style_prefix "choice"
     frame:
+        padding (7, 35, 10, 10)
         style "choice_frame"
+        # ysize 550
+        # yminimum None
+        viewport:
+            style "choice_viewport"
+            scrollbars "vertical"
+
+            yalign 0.5
+            ymaximum 520
+            mousewheel True
+
+            has vbox
+            align (0.5, 0.5)
+
+            vbox:
+                for i in items:
+                    textbutton i.caption action i.action
+
         # Variables below decide placement of the whole choice menu
         xalign .9
         yalign .2
 
-        vbox:
-            for i in items:
-                textbutton i.caption action i.action
+
+style choice_vscrollbar:
+    unscrollable gui.unscrollable
 
 # Background for Choice Menu
 style choice_frame:
     background Frame("gui/button/choice_frame.png")
-    xsize 350
-    ysize 550
+    xsize 370
+    ysize None
+    ymaximum 550
+    unscrollable gui.unscrollable
+
 
 style choice_vbox is vbox
 style choice_button is button
 style choice_button_text is button_text
+style choice_scrollbar is gui_vscrollbar
 
 style choice_vbox:
-    xalign 0.5
-    yalign 0.5
-    yanchor 0.5
-
-    spacing gui.choice_spacing
+#     yanchor 0.5
+#     xalign 0.5
+#     yalign 0.5
+     spacing gui.choice_spacing
 
 style choice_button is default:
-    properties gui.button_properties("choice_button")
+    background Frame("gui/button/choice_idle_background.png", 0, 75, 0, 0)
+    hover_background Frame("gui/button/choice_hover_background.png", 0, 75, 0, 0)
+    # Adjusting the padding of the text INSIDE the choice button.
+    padding (60, 10, 10, 10)
+    xsize 340
+    ysize None
+    xfill False
+    text_align 0.0
+#    properties gui.button_properties("choice_button")
 
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
@@ -529,6 +604,7 @@ style game_menu_viewport:
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
+
 
 style game_menu_side:
     spacing 15

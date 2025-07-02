@@ -68,6 +68,10 @@ define gui.interface_text_font = "gui/fonts/figtree.ttf"
 ## The size of normal dialogue text.
 define gui.text_size = 33
 
+## The font used for choice menu options.
+define gui.choice_text_size = 28
+
+
 ## The size of character names.
 define gui.name_text_size = 45
 
@@ -204,13 +208,13 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_width = 300
-define gui.choice_button_height = 200
+define gui.choice_button_width = None
+define gui.choice_button_height = None
 define gui.choice_button_tile = False
 # top right bottom left
-define gui.choice_button_borders = Borders(55, 10, 10, 10)
+define gui.choice_button_borders = Borders(10, 10, 10, 10)
 define gui.choice_button_text_font = gui.text_font
-define gui.choice_button_text_size = gui.text_size
+define gui.choice_button_text_size = gui.choice_text_size
 define gui.choice_button_text_xanchor = 0
 # define gui.choice_button_text_xalign = 0.6
 define gui.choice_button_text_yalign = 0.5
@@ -287,7 +291,7 @@ define gui.main_menu_text_xalign = 1.0
 ## components when an overlay or window is not present.
 
 ## Generic frames.
-define gui.frame_borders = Borders(6, 6, 6, 6)
+define gui.frame_borders = Borders(5, 5, 5, 5)
 
 ## The frame that is used as part of the confirm screen.
 define gui.confirm_frame_borders = Borders(60, 60, 60, 60)

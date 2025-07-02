@@ -6,26 +6,30 @@ label ch_prologue:
     show screen inbox
     
 screen inbox:
-    imagebutton auto "handleremail_%s.png" action Jump("email_1") focus_mask True
-        
+    imagebutton:
+        auto "handleremail_%s.png" 
+        action Jump("email_1") 
+        focus_mask True
         
 
 label email_1:
-        
+
+    window hide
+
+    show screen centraldisplay("event_room_placeholder.png") with dissolve
+
+    pause
+
+    window show
+    
     h "Hey, it's me."
 
-    # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
-    # directory.
-
-    # These display lines of dialogue.
-
-    h "Hey, it's me."
+    hide screen centraldisplay with dissolve
 
     mc "Who are you?"
 
-    show email a
-
     h "You've got mail."
+
+    hide screen inbox
 
     return

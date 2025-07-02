@@ -24,6 +24,16 @@ label ch_01_improv:
 
             h "It's a cranial implant. If I was in your appendix we'd both be clamoring for a refund."
 
+        "I can't hear you at all.":
+
+            h "Strange. Given the only way you could have known I was asking you a question was through auditory stimuli, it sounds like you are lying to me."
+
+            h "My question was more of a courtesy, really. My surgeons are the best in the land."
+
+        "This is a test to see what happens if there's so much text that the text overflows. This is a test to see what happens if there's so much text that the text overflows. This is a test to see what happens if there's so much text that the text overflows. This is a test to see what happens if there's so much text that the text overflows. This is a test to see what happens if there's so much text that the text overflows.":
+
+            pass
+
     h "In any case, welcome to your first ever networking event!"
 
     h "How are we feeling today?"
@@ -42,7 +52,13 @@ label ch_01_improv:
 
     h "This is an unstructured social event with no rules. We're in the Wild West, here."
 
+    h "Developer Elijah: Now after this is going to be a test screen-screen."
+
+    show screen topleftdisplay("event_room_placeholder")
+
     h "You're a little bit behind the curve. Most kids your age would have been doing this for years, now."
+
+    hide screen topleftdisplay
 
     show ad babybook with dissolve
 
