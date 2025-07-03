@@ -222,6 +222,26 @@ screen topleftdisplay(image_path="screen_placeholder.png"):
             xsize 10  # Set the width of the scrollbar
             unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
+screen LiabilityPDF():
+    imagebutton idle "prl/LiabilityPDF_back.png" hover "prl/LiabilityPDF_back.png" action Jump("email_1") focus_mask True
+    default firstnamebox = False
+    default lastnamebox = False
+    imagemap:
+        idle "prl/fn_idle.png"
+        hover "prl/fn_hover.png"
+        ground "prl/LiabilityPDF.png"
+
+        hotspot (785,774,294,42) action SetScreenVariable("firstnamebox",True)
+        hotspot (785,833,294,42) action SetScreenVariable("lastnamebox", True)
+        hotspot (785, 889, 294, 42) action [Hide("LiabilityPDF"),Jump("prologue_end")]
+        textbutton "Sign" action [Hide("LiabilityPDF"),Jump("prologue_end")] pos(788, 883)
+        if firstnamebox == True:
+            
+            input default mcname pos(788, 779) changed name_func
+        if lastnamebox == True:
+            
+            input default mclast pos(788, 838) changed lastname_func
+
 
 screen centraldisplay(image_path="screen_placeholder.png"):
     # Define the screen to display the scrollable image

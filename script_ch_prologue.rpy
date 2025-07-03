@@ -1,35 +1,103 @@
-﻿# PROLOGUE
+# PROLOGUE
+
+
+init python:
+    def name_func(newstring):
+        store.mcname = newstring
+
+        
+    def lastname_func(newstring):
+        store.mclast = newstring
+
+# screens
+
+screen inbox:
+    imagebutton auto "prl/handleremail_%s.png" action Jump("email_1") focus_mask True
+        
+screen email_1:
+    imagebutton auto "prl/pdf_%s.png" action Jump("LiabilityPDF") focus_mask True
+    imagebutton auto "prl/reply_%s.png" action Show("reply_menu") focus_mask True
+
+screen reply_menu:
+    add "prl/sugreplies.png"
+    imagebutton auto "prl/mvng_%s.png" action Jump("reply_moving") focus_mask True
+    imagebutton auto "prl/pymnt_%s.png" action Jump("reply_payment") focus_mask True
+
+screen reply_mvng:
+    imagebutton auto "prl/email1_%s.png" action Jump("email_1") focus_mask True
+    imagebutton auto "prl/reply_%s.png" action Show("reply_mvng_menu") focus_mask True
+
+screen reply_mvng_menu:
+    add "prl/sugreplies.png"
+    imagebutton auto "prl/pymnt2_%s.png" action Jump("reply_payment") focus_mask True
+
+screen reply_pymnt:
+    imagebutton auto "prl/email1_%s.png" action Jump("email_1") focus_mask True
+    imagebutton auto "prl/reply_%s.png" action Show("reply_pymnt_menu") focus_mask True
+
+screen reply_pymnt_menu:
+    add "prl/sugreplies.png"
+    imagebutton auto "prl/mvng2_%s.png" action Jump("reply_moving") focus_mask True
+
+# events
 
 label ch_prologue:
 
     scene bg email_inbox with fade
     show screen inbox
-    
-screen inbox:
-    imagebutton:
-        auto "handleremail_%s.png" 
-        action Jump("email_1") 
-        focus_mask True
-        
+    pause 
 
 label email_1:
-
-    window hide
-
-    show screen centraldisplay("event_room_placeholder.png") with dissolve
-
+    hide screen reply_mvng
+    hide screen reply_mvng_menu
+    hide screen reply_pymnt
+    hide screen reply_pymnt_menu
+    hide screen reply_menu
+    hide screen LiabilityPDF
+    hide screen inbox
+    scene bg email_1
+    show screen email_1
     pause
 
-    window show
-    
-    h "Hey, it's me."
+label LiabilityPDF:
+    hide screen reply_menu
+    hide screen email_1
+    show screen LiabilityPDF
+    pause
 
-    hide screen centraldisplay with dissolve
+label reply_moving:
+    hide screen reply_mvng
+    hide screen reply_mvng_menu
+    hide screen reply_pymnt
+    hide screen reply_pymnt_menu
+    hide screen reply_menu
+    hide screen LiabilityPDF
+    hide screen email_1
+    scene bg reply_mvng
+    show screen reply_mvng
+    pause
 
-    mc "Who are you?"
 
-    h "You've got mail."
+label reply_payment:
+    hide screen reply_mvng
+    hide screen reply_mvng_menu
+    hide screen reply_pymnt
+    hide screen reply_pymnt_menu
+    hide screen reply_menu
+    hide screen LiabilityPDF
+    hide screen email_1
+    scene bg reply_pymnt
+    show screen reply_pymnt
+    pause
 
-    hide screen inbox
 
-    return
+label prologue_end:
+    hide screen reply_mvng
+    hide screen reply_mvng_menu
+    hide screen reply_pymnt
+    hide screen reply_pymnt_menu
+    hide screen reply_menu
+    hide screen LiabilityPDF
+    hide screen email_1
+    h "It's a pleasure to meet you, [mcname] [mclast]."    
+
