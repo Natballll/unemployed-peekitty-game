@@ -204,8 +204,11 @@ screen topleftdisplay(image_path="screen_placeholder.png"):
     # Define the screen to display the scrollable image
 
     frame: # Optional: use a frame to enclose the viewport
+        background "gui/displays/topleft.png"
         xsize 600  # Set the desired width of the viewport
         ysize 500  # Set the desired height of the viewport
+        padding (10, 40, 20, 20)
+
         xalign 0.05
         yalign 0.1
         
@@ -247,23 +250,32 @@ screen centraldisplay(image_path="screen_placeholder.png"):
     # Define the screen to display the scrollable image
 
     frame: # Optional: use a frame to enclose the viewport
-        xsize 800  # Set the desired width of the viewport
-        ysize 1000  # Set the desired height of the viewport
+        background Frame("gui/displays/topleft.png", 40, 40, 40, 40)
+        xsize 1000  # Set the desired width of the viewport
+        ysize 600  # Set the desired height of the viewport
+        padding (30, 30, 30, 30)
         xalign 0.5
-        yalign 0.7
-        
-        viewport: # Create a viewport for scrolling
-            id "image_viewport"  # Assign an ID to the viewport
-            draggable True  # Allow dragging to scroll
-            mousewheel True  # Enable scrolling with the mouse wheel
+        yalign 0.1
 
-            add image_path  # Add your long image here
+        add image_path:  # Add your long image here
+            fit "contain"
+            xalign 0.5
+            yalign 0.5
 
-        vbar:
-            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
-            xalign 1.0  # Position the scrollbar to the right
-            xsize 10  # Set the width of the scrollbar
-            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
+        # viewport: # Create a viewport for scrolling
+        #     id "image_viewport"  # Assign an ID to the viewport
+        #     draggable True  # Allow dragging to scroll
+        #     mousewheel True  # Enable scrolling with the mouse wheel
+        #     add image_path:  # Add your long image here
+        #         xalign 0.5
+        #         yalign 0.5
+
+
+        # vbar:
+        #     value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+        #     xalign 1.0  # Position the scrollbar to the right
+        #     xsize 10  # Set the width of the scrollbar
+        #     unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
 ## Choice screen ###############################################################
 ##
@@ -276,17 +288,19 @@ screen centraldisplay(image_path="screen_placeholder.png"):
 screen choice(items):
     style_prefix "choice"
     frame:
-        padding (7, 35, 10, 10)
+        # Variables below decide placement of the whole choice menu
         style "choice_frame"
-        # ysize 550
-        # yminimum None
+        xalign .9
+        yalign .2
+
         viewport:
             style "choice_viewport"
-            scrollbars "vertical"
+            id "image_viewport"  # Assign an ID to the viewport
+            draggable True  # Allow dragging to scroll
+            mousewheel True
 
             yalign 0.5
             ymaximum 520
-            mousewheel True
 
             has vbox
             align (0.5, 0.5)
@@ -295,22 +309,20 @@ screen choice(items):
                 for i in items:
                     textbutton i.caption action i.action
 
-        # Variables below decide placement of the whole choice menu
-        xalign .9
-        yalign .2
+        vbar:
+            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+            xalign 1.0  # Position the scrollbar to the right
+            xsize 10  # Set the width of the scrollbar
+            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
-
-style choice_vscrollbar:
-    unscrollable gui.unscrollable
 
 # Background for Choice Menu
 style choice_frame:
     background Frame("gui/button/choice_frame.png")
+    padding (7, 35, 20, 20)
     xsize 370
     ysize None
     ymaximum 550
-    unscrollable gui.unscrollable
-
 
 style choice_vbox is vbox
 style choice_button is button
@@ -328,7 +340,7 @@ style choice_button is default:
     hover_background Frame("gui/button/choice_hover_background.png", 0, 75, 0, 0)
     # Adjusting the padding of the text INSIDE the choice button.
     padding (60, 10, 10, 10)
-    xsize 340
+    xsize 330
     ysize None
     xfill False
     text_align 0.0

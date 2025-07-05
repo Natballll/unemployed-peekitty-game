@@ -60,11 +60,11 @@ label ch_01_improv:
 
     hide screen topleftdisplay
 
-    show ad babybook with dissolve
+    show screen centraldisplay("ad_baby.png") with squares
 
     h "It's why my children's book, Baby's First Networking Event, has done so well."
 
-    hide ad babybook with dissolve
+    hide screen centraldisplay
 
     h "But don't fret, my promising client. We'll get you an interview yet."
 
@@ -78,10 +78,14 @@ label ch_01_improv:
 
     h "Do you see the fellow in the blazer, no tie, overpriced haircut?"
 
+    show improv neutral with dissolve
+
     h "I'm CoachCasting his profile over to you, now."
 
     # "at linkedin" is the new position to show a 600x500px image at the top right corner. this will be where our linkedin/social media pngs show up
-    show linkedin improv at linkedin with dissolve
+    # show linkedin improv at linkedin with dissolve
+
+    show screen topleftdisplay("linkedin_improv.png") with squares
 
     h "Try not to flinch next time. Never had your optical nerve hijacked before?"
 
@@ -101,13 +105,15 @@ label ch_01_improv:
 
     h "You know his area of expertise. You know the achievements he's the proudest of."
 
+    show screen topleftdisplay("linkedin_improv_long.png") with squares
+
     h "Just ask him about these things and he'll talk for ages."
 
     h "Sounds good? Let's try it out!"
 
-    show improv neutral with dissolve
-
     h "He seems pretty lame."
+
+    hide screen topleftdisplay
 
     i "That's rude."
 
