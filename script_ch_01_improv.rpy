@@ -54,13 +54,9 @@ label ch_01_improv:
 
     h "Developer Elijah: Now after this is going to be a test screen-screen."
 
-    show screen topleftdisplay("event_room_placeholder")
-
     h "You're a little bit behind the curve. Most kids your age would have been doing this for years, now."
 
-    hide screen topleftdisplay
-
-    show screen centraldisplay("ad_baby.png") with squares
+    show screen centraldisplay("central/ad_baby.png")
 
     h "It's why my children's book, Baby's First Networking Event, has done so well."
 
@@ -68,7 +64,7 @@ label ch_01_improv:
 
     h "But don't fret, my promising client. We'll get you an interview yet."
 
-    show overlay scanning with dissolve
+    show overlay scanning at top with dissolve
 
     h "Let's find you our first mark, shall we?"
 
@@ -85,9 +81,12 @@ label ch_01_improv:
     # "at linkedin" is the new position to show a 600x500px image at the top right corner. this will be where our linkedin/social media pngs show up
     # show linkedin improv at linkedin with dissolve
 
-    show screen topleftdisplay("linkedin_improv.png") with squares
+    show screen topleftdisplay("lk/linkedin_improv.png")
+
+    show screen ding("Hey Reynard. Pleasure to connect.", "improv")
 
     h "Try not to flinch next time. Never had your optical nerve hijacked before?"
+
 
     menu:
 
@@ -103,11 +102,14 @@ label ch_01_improv:
 
             h "Win this conversation, that's what."
 
+
     h "You know his area of expertise. You know the achievements he's the proudest of."
 
-    show screen topleftdisplay("linkedin_improv_long.png") with squares
+    show screen topleftdisplay("lk/linkedin_improv_long.png")
 
     h "Just ask him about these things and he'll talk for ages."
+
+    show screen ding("Hey! Looks like you'd be a great fit for our Patron position at My Play!", "improv")
 
     h "Sounds good? Let's try it out!"
 

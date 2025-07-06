@@ -6,6 +6,9 @@ define h = Character("Handler")
 
 $ bad_route = True
 
+default available_screens = ["notify1", "notify2", "notify3"]
+# default delay_done = True
+
 label start:
 
     call ch_prologue

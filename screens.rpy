@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Initialization
 ################################################################################
 
@@ -6,7 +6,6 @@ init offset = -1
 
 # init:
 #     define linkedin = Position(xalign=0.05, yalign=0.1)
-
 
 ################################################################################
 ## Styles
@@ -246,36 +245,85 @@ screen LiabilityPDF():
             input default mclast pos(788, 838) changed lastname_func
 
 
-screen centraldisplay(image_path="screen_placeholder.png"):
+## "Central Display" Screen ##################################################
+##
+## This screen is used to display our in-game optical displays to the player at the screen centre.
+
+screen centraldisplay(image_path="central_long", image_width=800, image_height=500):
     # Define the screen to display the scrollable image
+
+    $ width = image_width + 20
+    $ height = image_height + 40
 
     frame: # Optional: use a frame to enclose the viewport
         background Frame("gui/displays/topleft.png", 40, 40, 40, 40)
-        xsize 1000  # Set the desired width of the viewport
-        ysize 600  # Set the desired height of the viewport
-        padding (30, 30, 30, 30)
+        xsize width  # Set the desired width of the viewport
+        ysize height  # Set the desired height of the viewport
+        padding (10, 30, 10, 10)
         xalign 0.5
         yalign 0.1
 
-        add image_path:  # Add your long image here
-            fit "contain"
-            xalign 0.5
-            yalign 0.5
+        viewport: # Create a viewport for scrolling
+            id "image_viewport"  # Assign an ID to the viewport
+            draggable True  # Allow dragging to scroll
+            mousewheel True  # Enable scrolling with the mouse wheel
+            add image_path:  # Add your long image here
+                xalign 0.5
+                yalign 0.5
 
-        # viewport: # Create a viewport for scrolling
-        #     id "image_viewport"  # Assign an ID to the viewport
-        #     draggable True  # Allow dragging to scroll
-        #     mousewheel True  # Enable scrolling with the mouse wheel
-        #     add image_path:  # Add your long image here
-        #         xalign 0.5
-        #         yalign 0.5
+        vbar:
+            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+            xalign 1.0  # Position the scrollbar to the right
+            xsize 10  # Set the width of the scrollbar
+            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
+## Notifications Screen ##################################################
+##
+## This screen is used to display our notifications to the player.
 
-        # vbar:
-        #     value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
-        #     xalign 1.0  # Position the scrollbar to the right
-        #     xsize 10  # Set the width of the scrollbar
-        #     unscrollable "hide" # Hide the scrollbar if not needed for scrolling
+init python:
+
+    def ding(text, char):
+        renpy.pause(delay=1.5)
+        renpy.show_screen("ding", notice_text=text, character_str=char)
+
+screen ding(notice_text, character_str):
+
+    # Takes in the character shorthand as an argument and creates the file path to get image
+    $ profile_path = "images/profilepics/" + character_str + ".png"
+
+    frame:
+        style "my_style"
+        xsize 420
+        ysize 220
+        at notice
+        padding (30, 30, 30, 40)
+
+        # Use horizontal box to put image and text side by side
+        hbox:
+            spacing 10
+
+            add profile_path:
+                xsize 100
+                ysize 100
+                yalign 0.5
+            text notice_text:
+                xsize 230
+                size 20
+                yalign 0.5
+
+    # Disappears after 6 seconds (Full Opacity for 3, Linear Disappearing for 3)
+    timer 9.0 action Hide("ding")
+
+style my_style:
+    background Frame("gui/ding.png", 10, 10)
+
+transform notice:
+    xalign 0.1 yalign 0.55 alpha 0.0
+    pause 2.0
+    linear 0.1 alpha 1.0
+    pause 3.0
+    linear 3.0 alpha 0.0
 
 ## Choice screen ###############################################################
 ##
