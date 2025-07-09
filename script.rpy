@@ -3,6 +3,7 @@
 
 define mc = Character("Main Character")
 define h = Character("Handler")
+define q = Character("???")
 
 $ bad_route = True
 
