@@ -57,8 +57,6 @@ label ch_01_improv:
 
     h "It's why my children's book, Baby's First Networking Event, has done so well."
 
-    h "Oh yes. I can pull up images like that. All part of the cranial implant package."
-
     hide screen centraldisplay
 
     h "It's time for us to get to work."
@@ -99,19 +97,19 @@ label ch_01_improv:
 
         h "Let's start by introducing yourself."
 
-        "(Action) Walk towards the man confidently.":
+        "{i}Walk towards the man confidently.{/i}":
 
             h "Splendid, splendid, splendid. Chest out and decisive steps, that's what we like to see."
 
             h "Carry that energy into your voice and tone!"
 
-        "(Action) Walk towards the man timidly.":
+        "{i}Walk towards the man timidly.{/i}":
 
             h "Oh, dearie dearie dearie. We're going to have to work on that posture."
 
             h "You look like a lamb going to the slaughter."
 
-        "(Action) Remain standing in your spot.":
+        "{i}Remain standing in your spot.{/i}":
 
             call ch_01_frozen
 
@@ -155,6 +153,8 @@ label ch_01_improv:
 
     h "I'm on the lookout for our next mark."
 
+    hide screen topleftdisplay
+
     return
 
 label ch_01_frozen:
@@ -175,7 +175,7 @@ label ch_01_frozen:
 
         h "Let's try it out, shall we?"
 
-        "(Action) Walk towards the man.":
+        "{i}Walk towards the man.{/i}":
 
             pass
 
@@ -278,9 +278,9 @@ label ch_01_finkle1:
 
             "..."
 
-            "Finkle's eyes widen."
+            h "Is he..."
 
-            "Finkle's lips tremble."
+            h "Is he tearing up?"
 
             f "Could it be?"
 
@@ -400,7 +400,7 @@ label ch_01_cheese:
 
     menu:
 
-        f "Which means that... someone has stolen my title... it took me years to come up with..."
+        f "Which means that... someone has put on a new work with my title... it took me years to come up with..."
 
         "Years to come up with 'A Woman with a Block of Cheese'?":
 
