@@ -12,8 +12,8 @@ default available_screens = ["notify1", "notify2", "notify3"]
 
 label start:
 
-    call ch_prologue
-    call ch_01_improv
+    # call ch_prologue
+    # call ch_01_improv
     call ch_02_ambiguous
     call ch_03_pet
     call ch_04_dead
