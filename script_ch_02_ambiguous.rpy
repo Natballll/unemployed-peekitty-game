@@ -472,7 +472,9 @@ label ch_02_ambi5:
 
         a "Have a great day."
 
-        hide ambi with dissolve
+    hide ambi neutral with dissolve
+
+    return
 
 label ch_02_ambi6:
 
