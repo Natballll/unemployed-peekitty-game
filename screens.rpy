@@ -199,8 +199,12 @@ style input:
 ##
 ## This screen is used to display our in-game optical displays to the player in the top-left.
 
-screen topleftdisplay(image_path="screen_placeholder.png"):
+default z_order = 0
+
+screen topleftdisplay(image_path="screen_placeholder.png", z_order=0):
     # Define the screen to display the scrollable image
+
+    zorder z_order
 
     frame: # Optional: use a frame to enclose the viewport
         background "gui/displays/topleft.png"
@@ -210,6 +214,33 @@ screen topleftdisplay(image_path="screen_placeholder.png"):
 
         xalign 0.05
         yalign 0.1
+
+        viewport: # Create a viewport for scrolling
+            id "image_viewport"  # Assign an ID to the viewport
+            draggable True  # Allow dragging to scroll
+            mousewheel True  # Enable scrolling with the mouse wheel
+
+            add image_path  # Add your long image here
+
+        vbar:
+            value YScrollValue("image_viewport") # Link the scrollbar to the viewport's vertical scrolling
+            xalign 1.0  # Position the scrollbar to the right
+            xsize 10  # Set the width of the scrollbar
+            unscrollable "hide" # Hide the scrollbar if not needed for scrolling
+
+screen topleft2(image_path="screen_placeholder.png", z_order=0):
+    # Define the screen to display the scrollable image
+
+    zorder z_order
+
+    frame: # Optional: use a frame to enclose the viewport
+        background "gui/displays/topleft.png"
+        xsize 600  # Set the desired width of the viewport
+        ysize 500  # Set the desired height of the viewport
+        padding (10, 40, 20, 20)
+
+        xalign 0.1
+        yalign 0.2
         
         viewport: # Create a viewport for scrolling
             id "image_viewport"  # Assign an ID to the viewport
@@ -224,6 +255,20 @@ screen topleftdisplay(image_path="screen_placeholder.png"):
             xsize 10  # Set the width of the scrollbar
             unscrollable "hide" # Hide the scrollbar if not needed for scrolling
 
+init python:
+
+    def stacktopleft(image_path="screen_placeholder.png", reset=False):
+        if reset == True:
+            globals()['z_order'] = 0
+            renpy.hide_screen("topleftdisplay")
+            renpy.hide_screen("topleft2")
+        if globals()['z_order'] % 2 == 0:
+            renpy.show_screen("topleftdisplay", image_path, globals()['z_order'])
+        else:
+            renpy.show_screen("topleft2", image_path, globals()['z_order'])
+        
+        globals()['z_order'] += 1
+ 
 screen LiabilityPDF():
     imagebutton idle "prl/LiabilityPDF_back.png" hover "prl/LiabilityPDF_back.png" action Jump("email_1") focus_mask True
     default firstnamebox = False

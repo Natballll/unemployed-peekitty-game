@@ -5,14 +5,53 @@ label ch_02_ambiguous:
     define a = Character("Philly Pholop")
 
     default ambi1 = False
-    default ambi2 = 0
-    default ambi5 = 0
+    default ambi2 = [False, False]
+    default ambi3 = [False, False, False, False]
+    default ambi4 = [False, False, False, False]
 
     scene bg event_room with fade
 
     h "That woman over there seems to be rather disengaged."
 
-    show screen topleftdisplay("lk/linkedin_ambi")
+    call ch_02_ambi0     
+
+    while ambi1 == False:
+
+        call ch_02_ambi1
+
+    h "Great work. Same drill as last time -- get her to warm up to you."
+    
+    h "Looks like it's going to be a little harder than pretending we've seen a play. Press on."
+
+    h "Once we're confident that we've got her in our pocket, we can close the deal by asking for a referral or connection."
+
+    while ambi2 != [True, True]:
+
+        call ch_02_ambi2            
+
+    a "I've said a lot about myself, [mcname]."
+
+    h "And none of it particularly helpful."
+
+    a "I'd love to find out more about you."
+
+    h "After we've found out nothing about you??"
+
+    call ch_02_ambi3
+
+    call ch_02_ambi4
+
+    call ch_02_ambi5
+
+    call ch_02_ambi6
+
+    return
+
+label ch_02_ambi0:
+
+    # show screen topleftdisplay("lk/linkedin_ambi")
+
+    $ stacktopleft("lk/linkedin_ambi", True)
 
     "LinkedIn Profile for Philly Pholop: \n Public Relations Executive at the Company | Young Innovator Award | Two-Year Returning Intern at the Company's Global Internship Program | Outstanding Employee of the Year"
 
@@ -56,42 +95,7 @@ label ch_02_ambiguous:
 
             q "I'm Philly."
 
-            a "Tell me, [mcname]. Why should the Company help with that?"        
-
-    while ambi1 == False:
-
-        call ch_02_ambi1
-
-    h "Great work. Same drill as last time -- get her to warm up to you."
-    
-    h "Looks like it's going to be a little harder than pretending we've seen a play. Press on."
-
-    h "Once we're confident that we've got her in our pocket, we can close the deal by asking for a referral or connection."
-
-
-    while ambi2 < 2:
-
-        call ch_02_ambi2            
-
-    a "I've said a lot about myself, [mcname]."
-
-    h "And none of it particularly helpful."
-
-    a "I'd love to find out more about you."
-
-    h "Tread carefully. We've got to say the right things, and she hasn't given us much to work with."
-
-    h "Stay alert. More information is on the way."
-
-    call ch_02_ambi3
-
-    call ch_02_ambi4
-
-    call ch_02_ambi5
-
-    call ch_02_ambi6
-
-    return
+            a "Let's see if you can convince me to help you with that."
 
 label ch_02_ambi1:
 
@@ -179,9 +183,9 @@ label ch_02_ambi2:
 
             a "Occasionally, I use that spiel to convince people I'm not there to sell them something."
 
-            h "This is not giving us very much to work upon."
+            h "Hmm. I'm uncertain how to respond."
 
-            $ ambi2 += 1
+            $ ambi2[0] = True
         
         "Do you enjoy your work?":
 
@@ -203,242 +207,363 @@ label ch_02_ambi2:
 
             h "What is up with this lady?"
 
-            $ ambi2 += 1
+            $ ambi2[1] = True
     
     return
 
 label ch_02_ambi3:
 
-    default ambi3 = 0
+    a "I'm curious where you stand on the Company's recent staff welfare initiatives."
 
-    a "I know some people have opinions on how the Company treats its staff."
+    a "Tell me about that."
+
+    h "Finally, an explicit lead! I'm sending you everything I have, as fast as I get find it."
     
-    show screen topleftdisplay("linkedin_ambi_1")
+    $ stacktopleft("linkedin_ambi_1", True)
+
+    h "Don't just stand there! Start saying something!"
 
     menu:
         
+        "I love it! Who could possibly have a problem with a huge resort for staff?":
 
-        a "What views do you have on that?"
-        
-        "I like it.":
+            $ ambi3[0] = True
 
-            $ ambi3 += 1
+        "You're referring to the resort. I think it's disgusting...":
 
-            pass
+            $ ambi3[0] = False
 
-        "I don't like it.":
-
-            $ ambi3 -= 1
-
-            pass
-
-    show screen topleftdisplay("linkedin_ambi_2")
+    $ stacktopleft("linkedin_ambi_2")
 
     menu:
 
-        a "Really! I'm surprised!"
+        "Except, of course, the grave plights of the people who had to leave their homes forever... very sad..." if ambi3[0] == True:
 
-        "Don't be surprised. I've thought about this long and hard.":
+            $ ambi3[1] = False
 
-            if ambi3 > 0:
+        "Unless they've heard the accusations about forced displacement, then they're just way too sensitive..." if ambi3[0] == True:
 
-                $ ambi3 += 1
-            
-            else:
+            $ ambi3[1] = True
 
-                $ ambi3 -= 1
+        "Disgusting on account of the terrible human rights violations that have gone on..." if ambi3[0] == False:
 
-            a "Wow. You seem really firm on this."
-            
-        "Haha, I'm only joking! Of course I'm being sarcastic.":
+            $ ambi3[1] = False
 
-            if ambi3 < 0:
+        "Disgustingly fantastic! I can't wait for my beach vacation..." if ambi3[0] == False:
 
-                $ ambi3 += 1
-            
-            else:
+            $ ambi3[1] = True
 
-                $ ambi3 -= 1
+    $ stacktopleft("linkedin_ambi_3")
 
-            a "Oh. I'm not sure if this is something to be sarcastic about."
-
-    show screen topleftdisplay("linkedin_ambi_3")
-
-    if ambi3 > 0:
+    if ambi3[0] == True:
 
         menu:
 
-            a "So you really believe in the staff welfare initiatives that the Company has implemented?"
+            "Because those accusations are outrageous! The Company would never do such a thing." if ambi3[1] == True:
 
-            "I absolutely do! Who doesn't love their staff benefits?":
+                a "So you don't think anyone could possibly oppose the resort-building, you don't care about the forced displacement accusations, because you don't believe them because the Company would never do such a thing."
+                
+                $ stacktopleft("linkedin_ambi_4")
 
-                show screen topleftdisplay("linkedin_ambi_4")
+                a "..."
 
-                a "If you say so."
-            
-            "Well, I wouldn't say I 'really believe'...":
+                a "That's a very committed stance you've got there."
 
-                show screen topleftdisplay("linkedin_ambi_4")
+                $ ambi3[2] = True
 
-                a "Let's can discuss something else. Hopefully something you're more settled on."
+                $ ambi3[3] = True
 
-                $ ambi5 += 1
-     
-    if ambi3 < 0:
+            "I joke, of course. We all know the Company is capable of much worse." if ambi3[1] == True:
+
+                a "So you don't think anyone could possibly oppose the resort-building, you don't care about the forced displacement accusations, but actually you were joking all along because the Company's capable of evil."
+                
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+                
+                a "Not sure if this is something to joking about."
+
+                $ ambi3[2] = False
+                $ ambi3[3] = False
+
+            "Or it would be, if it wasn't all just made up! The Company would never do such a thing." if ambi3[1] == False:
+
+                a "So you don't think anyone could possibly oppose the resort-building, except for people who could be forcibly displaced, but fortunately none of them exist."
+                
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+
+                a "It's a very... interesting way how you've structured your response."
+
+                $ ambi3[2] = True
+                $ ambi3[3] = False
+
+            "Very sad, indeed. The whole thing's an utter tragedy, that's what this is!" if ambi3[1] == False:
+
+                a "So you don't think anyone could possibly oppose the resort-building, except for people who could be forcibly displaced, and you think that's a tragedy."
+                
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+
+                a "I've got to say, that opening line's a bit misleading."
+
+                $ ambi3[2] = False
+                $ ambi3[3] = False
+
+    if ambi3[0] == False:
 
         menu:
 
-            a "So you really oppose how the Company has gone about developing its staff welfare initiatives?"
+            "But I'm so relieved that the Company was absolved of all wrongdoing! Never doubted it for a second." if ambi3[1] == False:
 
-            "I absolutely do. What the Company is doing is wrong.":
+                a "So you think the resort's disgusting, because of the human rights violations, but you never doubted that the Company was completely innocent."
+                
+                $ stacktopleft("linkedin_ambi_4")
 
-                show screen topleftdisplay("linkedin_ambi_4")
+                a "..."
 
-                a "Those are strong words."
+                a "It feels like not all parts of that sentence can be true at the same time."
 
-            "Oppose is a strong word... I do like my staff benefits.":
+                $ ambi3[2] = True
+                $ ambi3[3] = False
 
-                show screen topleftdisplay("linkedin_ambi_4")
+            "There's more to unpack here, I know it. The Company has blood on its hands." if ambi3[1] == False:
 
-                a "Looks like you haven't made up your mind just yet."
+                a "So you think the resort's disgusting, because of the human rights violations, and you're determined that the Company is guilty of something."
 
-                $ ambi5 += 1
+                $ stacktopleft("linkedin_ambi_4")
 
-    if ambi3 == 0:
+                a "..."
 
-        menu:
+                a "That's a very committed stance you've got there."    
+                
+                $ ambi3[2] = False
+                $ ambi3[3] = True
 
-            a "So tell me what you really think. What's your stance on recent initiatives by the Company for staff?"
+            "So I can soak in the ocean, enjoy the local produce and embrace pristine nature." if ambi3[1] == True:
 
-            "I think the Company is doing nothing wrong.":
+                a "So you think the resort's disgusting, but disgustingly fantastic, and you're looking forward to reconnecting with pristine nature."
+                
+                $ stacktopleft("linkedin_ambi_4")
 
-                show screen topleftdisplay("linkedin_ambi_4")
+                a "..."
 
-                a "Fascinating position to take."
+                a "I'm afraid you're in for some disappointment."
 
-            "I think the Company is guilty of terrible things.":
+                $ ambi3[2] = True
+                $ ambi3[3] = False
+                
+            "So I can get there myself and conduct my own independent investigation. The Company's hiding something, I know it." if ambi3[1] == True:
 
-                show screen topleftdisplay("linkedin_ambi_4")
+                a "So you think the resort's disgusting, but disgustingly fantastic, because it gives you a chance to go there and conduct your own investigation."
 
-                a "Interesting stance on this issue."
+                $ stacktopleft("linkedin_ambi_4")
 
-    hide screen topleftdisplay
+                a "..."
+
+                a "I think 'fantastic' probably isn't the right word here."
+
+                $ ambi3[2] = False
+                $ ambi3[3] = False
+    
+    if ambi3[3] == False:
+
+        h "Observe closely the look on her face."
+
+        h "That's derision. It means she doesn't like you very much."
+
+        h "I'm sensing a chance of some frustration towards me here. \n Let the record show I got you everything as fast as I could and therefore this is not my fault."
+
+    if ambi3[3] == True:
+
+        h "Observe closely the look on her face."
+
+        h "I do believe I sense the slightest tinge of respect in her eyes."              
     
     return
 
 label ch_02_ambi4:
 
-    default ambi4 = 0
+    a "There's more I am curious about."
 
-    a "But are you comfortable working for an organisation that has a reputation like the Company's?"
+    a "Are you comfortable working for an organisation that has a reputation like the Company's?"
 
     a "Some people take a look at us and all they see is greed."
 
-    show screen topleftdisplay("linkedin_ambi_5")
+    a "Where do you lie on that?"
+
+    h "Stay focused, watch the displays. Start talking!"
+
+    $ stacktopleft("linkedin_ambi_5")
 
     menu:
-
-        a "Where do you lie on that?"
-
-        "I need to be honest. The Company's record is shameful.":
-
-            a "Is that so? You're making us sound like villains."
-
-            $ ambi4 += 1
-
-        "I think those people are wrong. I'm proud of what the Company does to give back.":
-
-            a "Is that so? You're making us sound like heroes."
-
-            $ ambi4 -= 1
-    
-    show screen topleftdisplay("linkedin_ambi_6")
         
-    menu:
+        "I think those people are wrong. I'm proud of what the Company does to give back...":
 
-        a "In light of recent events, it's interesting to find someone with your stand."
+            $ ambi4[0] = True
 
-        "Well, I guess I'm not as impressed by your CEO's generosity as you would like." if ambi4 > 0:
+        "The Company's record is shameful. But hey, I'm here to make money, not give it away...":
 
-            pass
+            $ ambi4[0] = False
 
-        "Of course I'm supportive of RECENT actions. I just think there's more to be done." if ambi4 > 0:
-
-            $ ambi4 -= 2
-
-        "Well, anyone who has done their homework on the Company's CEO would be inspired by his generosity." if ambi4 < 0:
-
-            pass
-
-        "I've heard of what your CEO did. Actually, I have my doubts about it." if ambi4 < 0:
-
-            $ ambi4 += 2
-
-    a "I'm glad to hear that you're up to date on current affairs."        
-
-    show screen topleftdisplay("linkedin_ambi_7")
+    $ stacktopleft("linkedin_ambi_6")
 
     menu:
 
-        a "There was intense disagreement from many sides over his final decision to carve up his wealth."
-
-        "He stuck to his guns. He did the right thing." if ambi4 < 0:
-
-            a "Really? I think I would have enjoyed just receiving that handout."
-
-            show screen topleftdisplay("linkedin_ambi_8")
-
-            a "Your opinions are truly intriguing, [mcname]."
-
-            pass
-
-        "The Company's an overall good for society. But this recent decision? I just can't stand it." if ambi4 < 0:
-
-            a "..."
-
-            a "Didn't you just say you were supportive of his recent actions?"
-
-            a "Either I'm having a stroke, or you're not making much sense."
-
-            a "But I don't blame you."
-
-            show screen topleftdisplay("linkedin_ambi_8")
-
-            a "The whole thing defies imagination."
-
-            $ ambi5 += 1
+        "Like the CEO's recent decision to give up his wealth, which surely everyone knows. What a shining role model to us all!" if ambi4[0] == True:
             
-        "The Company's overall record still needs work. But your CEO got this one thing right." if ambi4 > 0:
+            $ ambi4[1] = True
 
-            a "..."
+        "Except the CEO's recent decision to give up his wealth. I have some reservations about that." if ambi4[0] == True:
 
-            a "Didn't you just say that you were unsupportive of that?"
+            $ ambi4[1] = False
 
-            a "Either there's a hallucinogen in the snacks, or you're not being very coherent."
+        "Till I make enough money to make a huge difference! So I can follow in the footsteps of your CEO!..." if ambi4[0] == False:
 
-            a "But I don't blame you."
+            $ ambi4[1] = True
 
-            show screen topleftdisplay("linkedin_ambi_8")
+        "And I'd never want to give any of it away. We should stop pretending that's all it takes to solve long-standing systemic issues..." if ambi4[0] == False:
 
-            a "It was a whole mess."
+            $ ambi4[1] = False
 
-            $ ambi5 += 1
+    $ stacktopleft("linkedin_ambi_7")
 
-        "Well deserved. Your CEO made a grave mistake." if ambi4 > 0:
+    if ambi4[0] == True:
 
-            a "It was the only way we could keep everyone happy."
-            
-            show screen topleftdisplay("linkedin_ambi_8")
+        menu:
 
-            a "Your opinions are truly intriguing, [mcname]."
+            "I'm glad he stuck to his guns despite some criticisms. One day, I hope to follow in his footsteps" if ambi4[1] == True:
+
+                a "So you're proud of the Company's record, you think our CEO is a role model, and you're glad he stuck to his final decision."
+                
+                $ stacktopleft("linkedin_ambi_8")
+
+                a "..."
+
+                a "Fascinating. You are nothing if not consistent."
+
+                $ ambi4[2] = True
+                $ ambi4[3] = True
+
+            "Of course, maybe there should have been a longer conversation of where that wealth actually went..." if ambi4[1] == True:
+
+                a "So you're proud of the Company's record, you think our CEO is a role model, but just maybe more thought should have gone into where the money went."
+                
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+                
+                a "I think maybe is a horrifying understatement."
+
+                $ ambi4[2] = False
+                $ ambi4[3] = False
+
+            "But not too serious. People are dragging the CEO's good name through the mud when all he wanted to do was to do the right thing!" if ambi4[1] == False:
+
+                a "So you're proud of the Company's record, with the exception of our CEO's latest actions, but you think people opposing him are overreacting."
+
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+
+                a "I think those people have a right to be a little miffed, no?"
+
+                $ ambi4[2] = True
+                $ ambi4[3] = False
+
+            "I think the subsequent criticism was justified. Maybe there could have been better uses for that money." if ambi4[1] == False:
+
+                a "So you're proud of the Company's record, with the exception of our CEO's latest actions, and you think the subsequent criticism was justified."
+                
+                $ stacktopleft("linkedin_ambi_4")
+
+                a "..."
+
+                a "And you still claim to be proud of the Company's record?"
+
+                $ ambi4[2] = False
+                $ ambi4[3] = False
+
+    if ambi4[0] == False:
+
+        menu:
+
+            "He's a real role model for all wealthy people around the world. We should all be inspired by him!" if ambi4[1] == True:
+
+                a "So you think the Company's record is shameful, but our CEO is amazing, and we should all be inspired by him."
+                
+                $ stacktopleft("linkedin_ambi_8")
+
+                a "..."
+
+                a "I'd say his actions have more than overshadowed what little record the Company had."
+
+                $ ambi4[2] = True
+                $ ambi4[3] = False
+
+            "But not all of his footsteps, of course. Just handing out money like that isn't going to solve anything." if ambi4[1] == True:
+
+                a "So you think the Company's record is shameful, but our CEO is amazing, except for the part where he gave up his wealth."
+
+                $ stacktopleft("linkedin_ambi_8")
+
+                a "..."
+
+                a "It's not clear to me why at all you find our CEO amazing."    
+                
+                $ ambi4[2] = False
+                $ ambi4[3] = False
+
+            "The Company hides behind these one-off performative donations while there's a complex ecosystem of factors that makes it difficult for people to rise up on their own two feet. There needs to be an honest discussion on what we expect from corporations and workers, and the Company has actively avoided these conversations in favour of short-term grandstanding." if ambi4[1] == False:
+
+                a "So you think the Company's record is shameful, giving away money is useless, and blah, blah, blah..."
+                
+                $ stacktopleft("linkedin_ambi_8")
+
+                a "..."
+
+                a "I feel like there were bigger problems with that whole episode."
+
+                $ ambi4[2] = True
+                $ ambi4[3] = False
+                
+            "Because most poor people deserve to be poor, those lazy parasites!" if ambi4[1] == False:
+
+                a "So you think the Company's record is shameful, giving away money is useless, because you hate poor people."
+
+                $ stacktopleft("linkedin_ambi_8")
+
+                a "..."
+
+                a "Sounds like you'll fit right in here."
+
+                $ ambi4[2] = False
+                $ ambi4[3] = True
+    
+    if ambi4[3] == False:
+
+        h "Examine intently the furrow of her eyebrows."
+
+        h "We call that a frown. It's not a good sign."
+
+        h "Perhaps I need to re-evaluate my strategies. This one doesn't seem to be working for you."
+
+    if ambi4[3] == True:
+
+        h "Examine intently the arc of her eyebrows."
+
+        h "You may see, as I do, the slightest note of interest in her expression."  
 
     return
 
 label ch_02_ambi5:
 
     hide screen topleftdisplay
+    hide screen topleft2
 
-    if ambi5 >= 2:
+    if ambi3[3] == False and ambi4[3] == False:
 
         a "Well, it's been nice talking to you."
 
@@ -446,11 +571,11 @@ label ch_02_ambi5:
 
         a "You haven't even joined it yet..."
 
-        a "And you're already saying things you don't believe."
+        a "But you're already saying things you don't believe."
 
         a "Have a great day."
     
-    if ambi5 == 1:
+    if (ambi3[3] == False and ambi4[3] == True) or (ambi3[3] == True and ambi4[3] == False):
 
         a "Well, it's been nice talking to you."
 
@@ -460,7 +585,7 @@ label ch_02_ambi5:
 
         a "Have a great day."
 
-    if ambi5 == 0:
+    if ambi3[3] == True and ambi4[3] == True:
 
         a "Well, it's been nice talking to you."
 
@@ -478,8 +603,38 @@ label ch_02_ambi5:
 
 label ch_02_ambi6:
 
-    if ambi5 < 2:
+    if ambi3[3] == False and ambi4[3] == False:
 
+        h "That seemed to go poorly."
+
+        menu:
+
+            h "You need to sharpen your instinct for this."
+
+            "It wasn't my fault. Your information came kind of slowly, didn't it?":
+
+                h "Slowly?"
+
+                h "Are you seriously suggesting that this is... my fault?"
+
+                h "..."
+
+                h "I am never one to shy away from feedback. Perhaps we shall diversify our tactics."
+
+                h "Come. Many connections to form."
+
+            "I'll do better.":
+
+                h "Of course you will. You have me on your side."
+
+                h "And with me, you WILL embark on the path to gainful employment."
+
+                h "You have my word."
+
+                h "Come. Many connections to form."
+
+    else:
+        
         h "Fantastic work!"
 
         h "At this rate, we'll be swimming in interview offers."
@@ -503,35 +658,5 @@ label ch_02_ambi6:
                 h "What would you do without me?"
 
                 h "Come. Many more connections to form."
-
-    if ambi5 >= 2:
-
-        h "That seemed to go poorly."
-
-        menu:
-
-            h "You need to sharpen your instinct for this."
-
-            "It wasn't my fault. Your information came kind of slowly, didn't it?":
-
-                h "Slowly?"
-
-                h "Are you seriously suggesting that this is... my fault?"
-
-                h "..."
-
-                h "How amusing."
-
-                h "Come. Many connections to form."
-
-            "I'll do better.":
-
-                h "Of course you will. You have me on your side."
-
-                h "And with me, you WILL embark on the path to gainful employment."
-
-                h "You have my word."
-
-                h "Come. Many connections to form."
 
     return
