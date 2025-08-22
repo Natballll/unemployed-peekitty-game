@@ -10,6 +10,8 @@ label ch_07_anxiety:
 
     h "There's about just enough time for us to court one last mark."
 
+    $ stacktopleft("linkedin_anx", True)
+
     h "I've identified him for you. His name is Part Tycholore, Corporate Counter-Espionage Unit."
 
     menu:
@@ -45,7 +47,7 @@ label ch_07_anxiety:
     # Tycholore knows
     call ch_07_anxiety3
 
-    Attempts to blackmail Tycholore
+    # Attempts to blackmail Tycholore
     call ch_07_anxiety4
 
     if good_route == False:
@@ -126,6 +128,8 @@ label ch_07_anxiety2:
         menu:
 
             "What work do you do at the Counter-Espionage Unit?":
+        
+                $ stacktopleft("counter_website_aboutus")
 
                 x "Fantastic question! Its name certainly evokes secrecy and mystery, but I assure you it's nothing as dazzling."
 
@@ -140,6 +144,8 @@ label ch_07_anxiety2:
                 x "If you'd like to learn more, we'd love to have you apply to join the team!"
 
             "Some people say your unit is one of the best departments to work for. Is that true?":
+        
+                $ stacktopleft("counter_website_ourpeople")
 
                 x "Great question! It depends on your style and work ethic."
 
@@ -154,6 +160,8 @@ label ch_07_anxiety2:
                 x "And for our judgement, we are splendily compensated."
 
             "How does one join the Counter-Espionage Unit?":
+
+                $ stacktopleft("counter_website_joinus")
 
                 x "It's great to hear that query. There is a thorough selection process."
 
@@ -201,17 +209,26 @@ label ch_07_anxiety2:
 
 label ch_07_anx_attention:
 
+    "Bit about some famous Counter-Espionage bust that relied upon finding a literal needle in a haystack."
+
     return
 
 label ch_07_anx_disappear:
+
+    "Bit about some conspiracy theorist saying that the Company is disappearing people. Part takes it as a hilarious joke."
 
     return
 
 label ch_07_anx_best:
 
+    "Bit about the latest hire being some actual Nobel prize winning genius that Reynard's no match for"
+
     return
 
 label ch_07_anxiety3:
+
+    hide screen topleftdisplay
+    hide screen topleft2
 
     x "Well, [mcname], I must say you've made an impression on me."
 
@@ -412,11 +429,15 @@ label ch_07_anxiety4:
 
     h "Take a look, [mclast]. I've never had to do this deep a dive on the Company before, but I can't say I'm surprised."
 
+    $ stacktopleft("counter_perfreport", True)
+
     h "No single organisation gets this powerful without breaking a few eggs."
 
     h "I know what you are, Part Tycholore."
 
     h "Let's let him know that we know, [mclast]."
+
+    $ stacktopleft("counter_contents")
 
     menu:
 
@@ -424,17 +445,23 @@ label ch_07_anxiety4:
 
             x "Is there a reason why?"
 
+    $ stacktopleft("counter_incident1")
+
     menu:
 
         "Because you don't want the world to know that the Counter-Espionage Office has stolen its competitors' secrets!":
 
             x "..."
 
+    $ stacktopleft("counter_incident2")
+
     menu:
 
         "And has blackmailed people into joining the Company and not your competitors!":
 
             x "..."
+
+    $ stacktopleft("counter_incident3")
     
     menu:
 
@@ -452,17 +479,23 @@ label ch_07_anxiety4:
 
     h "But let's see how he reacts when it gets personal, [mclast]."
 
+    $ stacktopleft("july8_1")
+
     menu:
 
         "Well, what if I told you that I knew where you were on the night of July 8th this year?":
 
             x "..."
 
+    $ stacktopleft("july8_2")
+
     menu:
 
         "And I knew the person you were meeting?":
 
             x "..."
+
+    $ stacktopleft("july8_3")
 
     menu:
         
@@ -480,6 +513,8 @@ label ch_07_anxiety4:
 
     h "Everyone has an angle. And you, have a family."
 
+    $ stacktopleft("part_family_1")
+
     menu:
 
         "Are we going to kill his family?":
@@ -494,17 +529,23 @@ label ch_07_anxiety4:
 
     x "Have we come to a decision?"
 
+    $ stacktopleft("part_family_2")
+
     menu:
 
         "Well, would you like what I know about July 8th to be shared with your loved ones?":
 
             x "..."
 
+    $ stacktopleft("part_family_3")
+
     menu:
 
         "I know you have a son and a daughter...":
 
             x "..."
+
+    $ stacktopleft("part_family_4")
 
     menu:
 
@@ -516,7 +557,11 @@ label ch_07_anxiety4:
 
     h "Oh."
 
+    $ stacktopleft("part_family_5")
+
     h "I may have miscalculated."
+
+    $ stacktopleft("part_family_6")
 
     x "Having attachments is an occupational hazard in my line of work. But the appearance of having a family can make one appear less threatening."
 
@@ -525,6 +570,9 @@ label ch_07_anxiety4:
     x "Now, I'm afraid that if you continue to delay giving an answer to my request for an inspection, I will accept it as a refusal."
 
     x "And the subsequent protocols will take place."
+
+    hide screen topleftdisplay
+    hide screen topleft2
 
     h "I don't think so."
 
@@ -535,6 +583,8 @@ label ch_07_anxiety4:
     h "So maybe we need to find something about him he doesn't want the Counter-Espionage Office to know."
 
     h "It has to be somewhere here! Find it!"
+
+    show screen topleftdisplay("sea_messy")
 
     menu:
 
@@ -581,6 +631,8 @@ label ch_07_anxiety4:
             x "Seriously?"
             
             pass
+
+    hide screen topleftdisplay
 
     return
 
@@ -710,6 +762,8 @@ label ch_07_anxiety6:
 
             call ch_07_anxiety_bad_end
 
+    show screen topleftdisplay("sea_revealed")
+
     menu:
 
         "You did not declare your condition when you first made your application.":
@@ -733,6 +787,8 @@ label ch_07_anxiety6:
     x "..."
 
     x "Look at that. My next meeting's been cancelled, so we can have a little more time to chat."
+
+    hide screen topleftdisplay
 
     x "Upon a second re-assessment of the situation, I've decided the security team won't be necessary."
 
@@ -902,13 +958,15 @@ label ch_07_anxiety_panic_active:
 
     h "Start walking away, now. Before he starts attracting more attention."
 
-    show anxiety breakdown_small
+    show anxiety breakdown small
 
     h "Let others call for medical attention."
 
     h "..."
 
     h "What happened there?"
+
+    hide anxiety
 
     h "Why take such a reckless risk claiming to know something you didn't?"
 
